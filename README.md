@@ -1,56 +1,56 @@
-# 🏗️ Estructura de la Base de Datos
+# 🏗️ Database Structure
 
-La base de datos contiene las siguientes entidades
+The database contains the following entities
 
-- `Clientes` y `UbicacionCliente`
-- `Empleados`, `Puestos`, `DatosEmpleados`
-- `Proveedores` y `ContactoProveedores`
-- `Productos` y `TiposProductos`
-- `Pedidos` y `DetallesPedido`
-- `HistorialPedidos`, `EmpleadoProveedor`, `TelefonosCliente`
-- `Ubicaciones`, `ClienteUbicacion`
+- `Clients` and `ClientLocation`
+- `Employees`, `Positions`, `EmployeeData`
+- `Suppliers` and `SupplierContacts`
+- `Products` and `ProductTypes`
+- `Orders` and `OrderDetails`
+- `OrderHistory`, `EmployeeSupplier`, `ClientPhones`
+- `Locations`, `ClientAddress`
 
 
-## 🧠 Consulta Final del Punto 4
+## 🧠 Final Query for Point 4
 
-Se ejecuta la siguiente consulta para obtener un resumen por proveedor:
+The following query is executed to get a summary per supplier:
 
 ```sql
 SELECT 
-    prov.id as proveedor_id,
-    prov.nombre as proveedor_nombre,
-    prov.contacto,
-    COUNT(DISTINCT prod.id) as productos_ofrecidos,
-    COUNT(dp.id) as total_ventas,
-    SUM(dp.cantidad) as unidades_vendidas,
-    SUM(dp.cantidad * dp.precio) as ingresos_totales
-FROM Proveedores prov
-INNER JOIN Productos prod ON prov.id = prod.proveedor_id
-LEFT JOIN DetallesPedido dp ON prod.id = dp.producto_id
-GROUP BY prov.id, prov.nombre, prov.contacto
-ORDER BY ingresos_totales DESC;
+    prov.id as supplier_id,
+    prov.name as supplier_name,
+    prov.contact,
+    COUNT(DISTINCT prod.id) as products_offered,
+    COUNT(dp.id) as total_sales,
+    SUM(dp.quantity) as units_sold,
+    SUM(dp.quantity * dp.price) as total_revenue
+FROM Suppliers prov
+INNER JOIN Products prod ON prov.id = prod.supplier_id
+LEFT JOIN OrderDetails dp ON prod.id = dp.product_id
+GROUP BY prov.id, prov.name, prov.contact
+ORDER BY total_revenue DESC;
 ```
 
-**Explicación:**
+**Explanation:**
 
-- Ambos proveedores ofrecen **2 productos**.
-- `LapizQueRaya` vendió 2 lapiceros y 1 resma de papel → **3 unidades vendidas**.
-- `CuidadoElectricidad` vendió 1 mouse y 1 laptop → **2 unidades vendidas**.
-- Los ingresos son calculados como `(precio * cantidad)` por cada línea de pedido.
-
-
-## 📁 Contenido del Repositorio
-
-- `Talle_Mysql.sql`: Script completo de creación, inserción y consultas.
-- `README.md`: Este archivo, con la explicación y verificación de resultados.
+- Both suppliers offer **2 products**.
+- `PencilThatWrites` sold 2 pens and 1 paper ream → **3 units sold**.
+- `CarefulElectricity` sold 1 mouse and 1 laptop → **2 units sold**.
+- Revenue is calculated as `(price * quantity)` for each order line.
 
 
-## 📚 Temas Aplicados
+## 📁 Repository Content
 
-- Normalización hasta 3FN
-- Relaciones uno a muchos y muchos a muchos
+- `Taller_Mysql.sql`: Complete script for creation, insertion, and queries.
+- `README.md`: This file, with explanation and result verification.
+
+
+## 📚 Applied Topics
+
+- Normalization up to 3NF
+- One-to-many and many-to-many relationships
 - Joins (INNER, LEFT, RIGHT)
-- Agregaciones: `SUM`, `COUNT`, `GROUP BY`
-- Consultas multitabla y subconsultas
-- Uso de `DISTINCT` y funciones de agrupación
+- Aggregations: `SUM`, `COUNT`, `GROUP BY`
+- Multi-table queries and subqueries
+- Use of `DISTINCT` and grouping functions
 

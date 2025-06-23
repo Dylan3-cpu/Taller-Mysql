@@ -1,530 +1,530 @@
 CREATE DATABASE vtaszfs;
 USE vtaszfs;
 
-CREATE TABLE Clientes (
+CREATE TABLE Clients (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100),
+  name VARCHAR(100),
   email VARCHAR(100) UNIQUE
 ) ENGINE=InnoDB;
 
-CREATE TABLE UbicacionCliente (
+CREATE TABLE ClientLocation (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  cliente_id INT,
-  direccion VARCHAR(255),
-  ciudad VARCHAR(100),
-  estado VARCHAR(50),
-  codigo_postal VARCHAR(10),
-  pais VARCHAR(50),
-  FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+  client_id INT,
+  address VARCHAR(255),
+  city VARCHAR(100),
+  state VARCHAR(50),
+  postal_code VARCHAR(10),
+  country VARCHAR(50),
+  FOREIGN KEY (client_id) REFERENCES Clients(id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE Empleados (
+CREATE TABLE Employees (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100),
-  puesto VARCHAR(50),
+  name VARCHAR(100),
+  position VARCHAR(50),
   salario DECIMAL(10, 2),
-  fecha_contratacion DATE
+  hire_date DATE
 ) ENGINE=InnoDB;
 
-CREATE TABLE Proveedores (
+CREATE TABLE Suppliers (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100),
-  contacto VARCHAR(100),
-  telefono VARCHAR(20),
-  direccion VARCHAR(255)
+  name VARCHAR(100),
+  contact VARCHAR(100),
+  phone VARCHAR(20),
+  address VARCHAR(255)
 ) ENGINE=InnoDB;
 
-CREATE TABLE TiposProductos (
+CREATE TABLE ProductTypes (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  tipo_nombre VARCHAR(100),
-  descripcion TEXT
+  type_name VARCHAR(100),
+  description TEXT
 ) ENGINE=InnoDB;
 
-CREATE TABLE Productos (
+CREATE TABLE Products (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100),
-  precio DECIMAL(10, 2),
-  proveedor_id INT,
+  name VARCHAR(100),
+  price DECIMAL(10, 2),
+  supplier_id INT,
   tipo_id INT,
-  FOREIGN KEY (proveedor_id) REFERENCES Proveedores(id),
-  FOREIGN KEY (tipo_id) REFERENCES TiposProductos(id)
+  FOREIGN KEY (supplier_id) REFERENCES Suppliers(id),
+  FOREIGN KEY (tipo_id) REFERENCES ProductTypes(id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE Pedidos (
+CREATE TABLE Orders (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  cliente_id INT,
-  fecha DATE,
+  client_id INT,
+  date DATE,
   total DECIMAL(10, 2),
-  FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+  FOREIGN KEY (client_id) REFERENCES Clients(id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE DetallesPedido (
+CREATE TABLE OrderDetails (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  pedido_id INT,
-  producto_id INT,
-  cantidad INT,
-  precio DECIMAL(10, 2),
-  FOREIGN KEY (pedido_id) REFERENCES Pedidos(id),
-  FOREIGN KEY (producto_id) REFERENCES Productos(id)
+  order_id INT,
+  product_id INT,
+  quantity INT,
+  price DECIMAL(10, 2),
+  FOREIGN KEY (order_id) REFERENCES Orders(id),
+  FOREIGN KEY (product_id) REFERENCES Products(id)
 ) ENGINE=InnoDB;
 
-INSERT INTO Clientes (nombre, email) VALUES
-('Checo Pérez', 'checo_perez@gmail.com'),
+INSERT INTO Clients (name, email) VALUES
+('Checo Perez', 'checo_perez@gmail.com'),
 ('Lirili Larila', 'lila@gmail.com'),
-('Lucho Díaz', 'guajiro@gmail.com');
+('Lucho Diaz', 'guajiro@gmail.com');
 
-INSERT INTO UbicacionCliente (cliente_id, direccion, ciudad, estado, codigo_postal, pais) VALUES
-(1, 'Calle 101101', 'Bogotá', 'Cundinamarca', '110111', 'Colombia'),
-(2, 'Carrera 45', 'Medellín', 'Antioquia', '050021', 'Colombia'),
-(3, 'Av. Ya casi llega', 'Cali', 'Valle', '760001', 'Colombia');
+INSERT INTO ClientLocation (client_id, address, city, state, postal_code, country) VALUES
+(1, 'Street 101101', 'Bogota', 'Cundinamarca', '110111', 'Colombia'),
+(2, 'Avenue 45', 'Medellin', 'Antioquia', '050021', 'Colombia'),
+(3, 'Almost There Ave.', 'Cali', 'Valle', '760001', 'Colombia');
 
-INSERT INTO Empleados (nombre, puesto, salario, fecha_contratacion) VALUES
-('Ana Torres', 'Vendedor', 2500.00, '2005-01-01'),
-('Luis Martínez', 'Gerente', 5000.00, '2004-02-02'),
-('Sandra López', 'Asistente', 1800.00, '2003-03-03');
+INSERT INTO Employees (name, position, salario, hire_date) VALUES
+('Ana Torres', 'Salesperson', 2500.00, '2005-01-01'),
+('Luis Martinez', 'Manager', 5000.00, '2004-02-02'),
+('Sandra Lopez', 'Assistant', 1800.00, '2003-03-03');
 
-INSERT INTO Proveedores (nombre, contacto, telefono, direccion) VALUES
-('CuidadoElectricidad', 'Juan Ruiz', '3001234567', 'Calle 10 #15-20'),
-('LapizQueRaya', 'Marta Sánchez', '3107654321', 'Cra 8 #45-32');
+INSERT INTO Suppliers (name, contact, phone, address) VALUES
+('CarefulElectricity', 'Juan Ruiz', '3001234567', 'Street 10 #15-20'),
+('PencilThatWrites', 'Marta Sanchez', '3107654321', 'Ave. 8 #45-32');
 
-INSERT INTO TiposProductos (tipo_nombre, descripcion) VALUES
-('Electrónica', 'Dispositivos electrónicos'),
-('Oficina', 'Suministros de oficina');
+INSERT INTO ProductTypes (type_name, description) VALUES
+('Electronics', 'Dispositivos electrónicos'),
+('Office Supplies', 'Suministros de oficina');
 
-INSERT INTO Productos (nombre, precio, proveedor_id, tipo_id) VALUES
-('Laptop 95 MQUEEN', 3500.00, 1, 1),
-('Mouse de Mickey Mouse', 50.00, 1, 1),
-('Resma de papel', 20.00, 2, 2),
-('Lapiceros x10 de 10', 5.00, 2, 2);
+INSERT INTO Products (name, price, supplier_id, tipo_id) VALUES
+('Gaming Laptop X95', 3500.00, 1, 1),
+('Wireless Mouse Pro', 50.00, 1, 1),
+('Premium Paper Ream', 20.00, 2, 2),
+('Ballpoint Pens Set x10', 5.00, 2, 2);
 
-INSERT INTO Pedidos (cliente_id, fecha, total) VALUES
+INSERT INTO Orders (client_id, date, total) VALUES
 (1, '2024-05-10', 70.00),
 (2, '2024-05-12', 3500.00),
 (3, '2024-05-15', 25.00);
 
-INSERT INTO DetallesPedido (pedido_id, producto_id, cantidad, precio) VALUES
+INSERT INTO OrderDetails (order_id, product_id, quantity, price) VALUES
 (1, 2, 1, 50.00), -- Mouse
-(1, 4, 2, 10.00), -- Lapiceros
+(1, 4, 2, 10.00), -- Pens
 (2, 1, 1, 3500.00), -- Laptop 
-(3, 3, 1, 20.00); -- Resma
+(3, 3, 1, 20.00); -- Paper Ream
 
-CREATE TABLE HistorialPedidos (
+CREATE TABLE OrderHistory (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  pedido_id INT,
-  accion VARCHAR(50),
-  fecha_cambio DATETIME,
-  total_anterior DECIMAL(10,2),
-  total_nuevo DECIMAL(10,2),
-  FOREIGN KEY (pedido_id) REFERENCES Pedidos(id)
+  order_id INT,
+  action VARCHAR(50),
+  change_date DATETIME,
+  previous_total DECIMAL(10,2),
+  new_total DECIMAL(10,2),
+  FOREIGN KEY (order_id) REFERENCES Orders(id)
 ) ENGINE=InnoDB;
 
 
-CREATE TABLE Puestos (
+CREATE TABLE Positions (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre_puesto VARCHAR(50)
+  position_name VARCHAR(50)
 ) ENGINE=InnoDB;
 
-INSERT INTO Puestos (nombre_puesto) VALUES
-('Vendedor'), ('Gerente'), ('Asistente');
+INSERT INTO Positions (position_name) VALUES
+('Salesperson'), ('Manager'), ('Assistant');
 
-CREATE TABLE DatosEmpleados (
+CREATE TABLE EmployeeData (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100),
+  name VARCHAR(100),
   puesto_id INT,
   salario DECIMAL(10,2),
-  fecha_contratacion DATE,
-  FOREIGN KEY (puesto_id) REFERENCES Puestos(id)
+  hire_date DATE,
+  FOREIGN KEY (puesto_id) REFERENCES Positions(id)
 ) ENGINE=InnoDB;
 
 
-CREATE TABLE ContactoProveedores (
+CREATE TABLE SupplierContacts (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  proveedor_id INT,
-  contacto VARCHAR(100),
-  telefono VARCHAR(20),
-  FOREIGN KEY (proveedor_id) REFERENCES Proveedores(id)
+  supplier_id INT,
+  contact VARCHAR(100),
+  phone VARCHAR(20),
+  FOREIGN KEY (supplier_id) REFERENCES Suppliers(id)
 ) ENGINE=InnoDB;
 
 
-CREATE TABLE TelefonosCliente (
+CREATE TABLE ClientPhones (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  cliente_id INT,
-  telefono VARCHAR(20),
-  FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+  client_id INT,
+  phone VARCHAR(20),
+  FOREIGN KEY (client_id) REFERENCES Clients(id)
 ) ENGINE=InnoDB;
 
 
-ALTER TABLE TiposProductos
+ALTER TABLE ProductTypes
 ADD COLUMN tipo_padre_id INT NULL,
-ADD FOREIGN KEY (tipo_padre_id) REFERENCES TiposProductos(id);
+ADD FOREIGN KEY (tipo_padre_id) REFERENCES ProductTypes(id);
 
 
 
-CREATE TABLE EmpleadoProveedor (
+CREATE TABLE EmployeeSupplier (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  empleado_id INT,
-  proveedor_id INT,
-  FOREIGN KEY (empleado_id) REFERENCES Empleados(id),
-  FOREIGN KEY (proveedor_id) REFERENCES Proveedores(id)
+  employee_id INT,
+  supplier_id INT,
+  FOREIGN KEY (employee_id) REFERENCES Employees(id),
+  FOREIGN KEY (supplier_id) REFERENCES Suppliers(id)
 ) ENGINE=InnoDB;
 
 
-CREATE TABLE Ubicaciones (
+CREATE TABLE Locations (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  direccion VARCHAR(255),
-  ciudad VARCHAR(100),
-  estado VARCHAR(50),
-  codigo_postal VARCHAR(10),
-  pais VARCHAR(50)
+  address VARCHAR(255),
+  city VARCHAR(100),
+  state VARCHAR(50),
+  postal_code VARCHAR(10),
+  country VARCHAR(50)
 ) ENGINE=InnoDB;
 
-CREATE TABLE ClienteUbicacion (
+CREATE TABLE ClientAddress (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  cliente_id INT,
+  client_id INT,
   ubicacion_id INT,
-  FOREIGN KEY (cliente_id) REFERENCES Clientes(id),
-  FOREIGN KEY (ubicacion_id) REFERENCES Ubicaciones(id)
+  FOREIGN KEY (client_id) REFERENCES Clients(id),
+  FOREIGN KEY (ubicacion_id) REFERENCES Locations(id)
 ) ENGINE=InnoDB;
 
 
 
 
 SELECT 
-    p.id as pedido_id,
-    p.fecha,
+    p.id as order_id,
+    p.date,
     p.total,
-    c.nombre as cliente_nombre,
+    c.name as client_name,
     c.email
-FROM Pedidos p
-INNER JOIN Clientes c ON p.cliente_id = c.id;
+FROM Orders p
+INNER JOIN Clients c ON p.client_id = c.id;
 
 SELECT 
-    prod.id as producto_id,
-    prod.nombre as producto_nombre,
-    prod.precio,
-    prov.nombre as proveedor_nombre,
-    prov.contacto
-FROM Productos prod
-INNER JOIN Proveedores prov ON prod.proveedor_id = prov.id;
+    prod.id as product_id,
+    prod.name as product_name,
+    prod.price,
+    prov.name as supplier_name,
+    prov.contact
+FROM Products prod
+INNER JOIN Suppliers prov ON prod.supplier_id = prov.id;
 
 SELECT 
-    p.id as pedido_id,
-    p.fecha,
+    p.id as order_id,
+    p.date,
     p.total,
-    c.nombre as cliente_nombre,
-    uc.direccion,
-    uc.ciudad,
-    uc.estado,
-    uc.pais
-FROM Pedidos p
-INNER JOIN Clientes c ON p.cliente_id = c.id
-LEFT JOIN UbicacionCliente uc ON c.id = uc.cliente_id;
+    c.name as client_name,
+    uc.address,
+    uc.city,
+    uc.state,
+    uc.country
+FROM Orders p
+INNER JOIN Clients c ON p.client_id = c.id
+LEFT JOIN ClientLocation uc ON c.id = uc.client_id;
 
-ALTER TABLE Pedidos ADD COLUMN empleado_id INT;
-ALTER TABLE Pedidos ADD FOREIGN KEY (empleado_id) REFERENCES Empleados(id);
+ALTER TABLE Orders ADD COLUMN employee_id INT;
+ALTER TABLE Orders ADD FOREIGN KEY (employee_id) REFERENCES Employees(id);
 
-UPDATE Pedidos SET empleado_id = 1 WHERE id = 1;
-UPDATE Pedidos SET empleado_id = 2 WHERE id = 2;
-UPDATE Pedidos SET empleado_id = 1 WHERE id = 3;
+UPDATE Orders SET employee_id = 1 WHERE id = 1;
+UPDATE Orders SET employee_id = 2 WHERE id = 2;
+UPDATE Orders SET employee_id = 1 WHERE id = 3;
 
 SELECT 
-    e.id as empleado_id,
-    e.nombre as empleado_nombre,
-    e.puesto,
-    p.id as pedido_id,
-    p.fecha,
+    e.id as employee_id,
+    e.name as employee_name,
+    e.position,
+    p.id as order_id,
+    p.date,
     p.total
-FROM Empleados e
-LEFT JOIN Pedidos p ON e.id = p.empleado_id;
+FROM Employees e
+LEFT JOIN Orders p ON e.id = p.employee_id;
 
 SELECT 
     tp.id as tipo_id,
-    tp.tipo_nombre,
-    tp.descripcion,
-    prod.id as producto_id,
-    prod.nombre as producto_nombre,
-    prod.precio
-FROM TiposProductos tp
-INNER JOIN Productos prod ON tp.id = prod.tipo_id;
+    tp.type_name,
+    tp.description,
+    prod.id as product_id,
+    prod.name as product_name,
+    prod.price
+FROM ProductTypes tp
+INNER JOIN Products prod ON tp.id = prod.tipo_id;
 
 SELECT 
-    c.id as cliente_id,
-    c.nombre as cliente_nombre,
+    c.id as client_id,
+    c.name as client_name,
     c.email,
-    COUNT(p.id) as numero_pedidos
-FROM Clientes c
-LEFT JOIN Pedidos p ON c.id = p.cliente_id
-GROUP BY c.id, c.nombre, c.email;
+    COUNT(p.id) as number_of_orders
+FROM Clients c
+LEFT JOIN Orders p ON c.id = p.client_id
+GROUP BY c.id, c.name, c.email;
 
 SELECT 
-    e.nombre as empleado_nombre,
-    e.puesto,
-    p.id as pedido_id,
-    p.fecha,
+    e.name as employee_name,
+    e.position,
+    p.id as order_id,
+    p.date,
     p.total,
-    c.nombre as cliente_nombre
-FROM Empleados e
-INNER JOIN Pedidos p ON e.id = p.empleado_id
-INNER JOIN Clientes c ON p.cliente_id = c.id;
+    c.name as client_name
+FROM Employees e
+INNER JOIN Orders p ON e.id = p.employee_id
+INNER JOIN Clients c ON p.client_id = c.id;
 
 SELECT 
-    prod.id as producto_id,
-    prod.nombre as producto_nombre,
-    prod.precio,
-    dp.producto_id as pedido_producto_id
-FROM DetallesPedido dp
-RIGHT JOIN Productos prod ON dp.producto_id = prod.id
-WHERE dp.producto_id IS NULL;
+    prod.id as product_id,
+    prod.name as product_name,
+    prod.price,
+    dp.product_id as pedido_producto_id
+FROM OrderDetails dp
+RIGHT JOIN Products prod ON dp.product_id = prod.id
+WHERE dp.product_id IS NULL;
 
 SELECT 
-    c.nombre as cliente_nombre,
+    c.name as client_name,
     COUNT(p.id) as total_pedidos,
-    SUM(p.total) as valor_total_pedidos,
-    uc.direccion,
-    uc.ciudad,
-    uc.estado
-FROM Clientes c
-LEFT JOIN Pedidos p ON c.id = p.cliente_id
-LEFT JOIN UbicacionCliente uc ON c.id = uc.cliente_id
-GROUP BY c.id, c.nombre, uc.direccion, uc.ciudad, uc.estado;
+    SUM(p.total) as total_order_value,
+    uc.address,
+    uc.city,
+    uc.state
+FROM Clients c
+LEFT JOIN Orders p ON c.id = p.client_id
+LEFT JOIN ClientLocation uc ON c.id = uc.client_id
+GROUP BY c.id, c.name, uc.address, uc.city, uc.state;
 
 SELECT 
-    prov.nombre as proveedor_nombre,
-    prov.contacto,
-    tp.tipo_nombre,
-    prod.nombre as producto_nombre,
-    prod.precio,
-    FLOOR(RAND() * 100) + 1 as stock_disponible
-FROM Proveedores prov
-INNER JOIN Productos prod ON prov.id = prod.proveedor_id
-INNER JOIN TiposProductos tp ON prod.tipo_id = tp.id
-ORDER BY prov.nombre, tp.tipo_nombre;
+    prov.name as supplier_name,
+    prov.contact,
+    tp.type_name,
+    prod.name as product_name,
+    prod.price,
+    FLOOR(RAND() * 100) + 1 as available_stock
+FROM Suppliers prov
+INNER JOIN Products prod ON prov.id = prod.supplier_id
+INNER JOIN ProductTypes tp ON prod.tipo_id = tp.id
+ORDER BY prov.name, tp.type_name;
 
 
 
 
 SELECT 
     id,
-    nombre,
-    precio,
-    proveedor_id,
+    name,
+    price,
+    supplier_id,
     tipo_id
-FROM Productos
-WHERE precio > 50;
+FROM Products
+WHERE price > 50;
 
 SELECT 
     c.id,
-    c.nombre,
+    c.name,
     c.email,
-    uc.ciudad
-FROM Clientes c
-INNER JOIN UbicacionCliente uc ON c.id = uc.cliente_id
-WHERE uc.ciudad = 'Bogotá';
+    uc.city
+FROM Clients c
+INNER JOIN ClientLocation uc ON c.id = uc.client_id
+WHERE uc.city = 'Bogota';
 
 
 SELECT 
     id,
-    nombre,
-    puesto,
+    name,
+    position,
     salario,
-    fecha_contratacion
-FROM Empleados
-WHERE fecha_contratacion >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR);
+    hire_date
+FROM Employees
+WHERE hire_date >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR);
 
 SELECT 
     prov.id,
-    prov.nombre,
-    prov.contacto,
+    prov.name,
+    prov.contact,
     COUNT(prod.id) as total_productos
-FROM Proveedores prov
-INNER JOIN Productos prod ON prov.id = prod.proveedor_id
-GROUP BY prov.id, prov.nombre, prov.contacto
+FROM Suppliers prov
+INNER JOIN Products prod ON prov.id = prod.supplier_id
+GROUP BY prov.id, prov.name, prov.contact
 HAVING COUNT(prod.id) > 5;
 
 SELECT 
     c.id,
-    c.nombre,
+    c.name,
     c.email
-FROM Clientes c
-LEFT JOIN UbicacionCliente uc ON c.id = uc.cliente_id
-WHERE uc.cliente_id IS NULL;
+FROM Clients c
+LEFT JOIN ClientLocation uc ON c.id = uc.client_id
+WHERE uc.client_id IS NULL;
 
 SELECT 
-    c.id as cliente_id,
-    c.nombre as cliente_nombre,
+    c.id as client_id,
+    c.name as client_name,
     c.email,
-    COALESCE(SUM(p.total), 0) as total_ventas
-FROM Clientes c
-LEFT JOIN Pedidos p ON c.id = p.cliente_id
-GROUP BY c.id, c.nombre, c.email;
+    COALESCE(SUM(p.total), 0) as total_sales
+FROM Clients c
+LEFT JOIN Orders p ON c.id = p.client_id
+GROUP BY c.id, c.name, c.email;
 
 SELECT 
-    ROUND(AVG(salario), 2) as salario_promedio,
+    ROUND(AVG(salario), 2) as average_salary,
     COUNT(*) as total_empleados,
-    MIN(salario) as salario_minimo,
-    MAX(salario) as salario_maximo
-FROM Empleados;
+    MIN(salario) as minimum_salary,
+    MAX(salario) as maximum_salary
+FROM Employees;
 
 SELECT 
     id,
-    tipo_nombre,
-    descripcion
-FROM TiposProductos
-ORDER BY tipo_nombre;
+    type_name,
+    description
+FROM ProductTypes
+ORDER BY type_name;
 
 SELECT 
     id,
-    nombre,
-    precio,
-    proveedor_id
-FROM Productos
-ORDER BY precio DESC
+    name,
+    price,
+    supplier_id
+FROM Products
+ORDER BY price DESC
 LIMIT 3;
 
 SELECT 
-    c.id as cliente_id,
-    c.nombre as cliente_nombre,
+    c.id as client_id,
+    c.name as client_name,
     c.email,
-    COUNT(p.id) as numero_pedidos
-FROM Clientes c
-INNER JOIN Pedidos p ON c.id = p.cliente_id
-GROUP BY c.id, c.nombre, c.email
-ORDER BY numero_pedidos DESC
+    COUNT(p.id) as number_of_orders
+FROM Clients c
+INNER JOIN Orders p ON c.id = p.client_id
+GROUP BY c.id, c.name, c.email
+ORDER BY number_of_orders DESC
 LIMIT 1;
 
 
 
 
 SELECT 
-    p.id as pedido_id,
-    p.fecha,
+    p.id as order_id,
+    p.date,
     p.total,
-    c.id as cliente_id,
-    c.nombre as cliente_nombre,
+    c.id as client_id,
+    c.name as client_name,
     c.email
-FROM Pedidos p
-INNER JOIN Clientes c ON p.cliente_id = c.id
-ORDER BY p.fecha DESC;
+FROM Orders p
+INNER JOIN Clients c ON p.client_id = c.id
+ORDER BY p.date DESC;
 
 SELECT 
-    p.id as pedido_id,
-    p.fecha,
+    p.id as order_id,
+    p.date,
     p.total,
-    c.nombre as cliente_nombre,
-    uc.direccion,
-    uc.ciudad,
-    uc.estado,
-    uc.codigo_postal,
-    uc.pais
-FROM Pedidos p
-INNER JOIN Clientes c ON p.cliente_id = c.id
-LEFT JOIN UbicacionCliente uc ON c.id = uc.cliente_id
-ORDER BY p.fecha DESC;
+    c.name as client_name,
+    uc.address,
+    uc.city,
+    uc.state,
+    uc.postal_code,
+    uc.country
+FROM Orders p
+INNER JOIN Clients c ON p.client_id = c.id
+LEFT JOIN ClientLocation uc ON c.id = uc.client_id
+ORDER BY p.date DESC;
 
 SELECT 
-    prod.id as producto_id,
-    prod.nombre as producto_nombre,
-    prod.precio,
-    prov.nombre as proveedor_nombre,
-    prov.contacto as contacto_proveedor,
-    tp.tipo_nombre,
-    tp.descripcion as descripcion_tipo
-FROM Productos prod
-INNER JOIN Proveedores prov ON prod.proveedor_id = prov.id
-INNER JOIN TiposProductos tp ON prod.tipo_id = tp.id
-ORDER BY tp.tipo_nombre, prod.nombre;
+    prod.id as product_id,
+    prod.name as product_name,
+    prod.price,
+    prov.name as supplier_name,
+    prov.contact as contacto_proveedor,
+    tp.type_name,
+    tp.description as descripcion_tipo
+FROM Products prod
+INNER JOIN Suppliers prov ON prod.supplier_id = prov.id
+INNER JOIN ProductTypes tp ON prod.tipo_id = tp.id
+ORDER BY tp.type_name, prod.name;
 
 SELECT DISTINCT
-    e.id as empleado_id,
-    e.nombre as empleado_nombre,
-    e.puesto,
-    c.nombre as cliente_nombre,
-    uc.ciudad
-FROM Empleados e
-INNER JOIN Pedidos p ON e.id = p.empleado_id
-INNER JOIN Clientes c ON p.cliente_id = c.id
-INNER JOIN UbicacionCliente uc ON c.id = uc.cliente_id
-WHERE uc.ciudad = 'Bogotá';
+    e.id as employee_id,
+    e.name as employee_name,
+    e.position,
+    c.name as client_name,
+    uc.city
+FROM Employees e
+INNER JOIN Orders p ON e.id = p.employee_id
+INNER JOIN Clients c ON p.client_id = c.id
+INNER JOIN ClientLocation uc ON c.id = uc.client_id
+WHERE uc.city = 'Bogota';
 
 SELECT 
-    prod.id as producto_id,
-    prod.nombre as producto_nombre,
-    prod.precio,
-    SUM(dp.cantidad) as total_vendido,
-    COUNT(dp.id) as veces_pedido
-FROM Productos prod
-INNER JOIN DetallesPedido dp ON prod.id = dp.producto_id
-GROUP BY prod.id, prod.nombre, prod.precio
+    prod.id as product_id,
+    prod.name as product_name,
+    prod.price,
+    SUM(dp.quantity) as total_vendido,
+    COUNT(dp.id) as times_ordered
+FROM Products prod
+INNER JOIN OrderDetails dp ON prod.id = dp.product_id
+GROUP BY prod.id, prod.name, prod.price
 ORDER BY total_vendido DESC
 LIMIT 5;
 
 SELECT 
-    c.nombre as cliente_nombre,
-    uc.ciudad,
-    uc.estado,
+    c.name as client_name,
+    uc.city,
+    uc.state,
     COUNT(p.id) as total_pedidos,
-    SUM(p.total) as valor_total
-FROM Clientes c
-INNER JOIN UbicacionCliente uc ON c.id = uc.cliente_id
-LEFT JOIN Pedidos p ON c.id = p.cliente_id
-GROUP BY c.id, c.nombre, uc.ciudad, uc.estado
+    SUM(p.total) as total_value
+FROM Clients c
+INNER JOIN ClientLocation uc ON c.id = uc.client_id
+LEFT JOIN Orders p ON c.id = p.client_id
+GROUP BY c.id, c.name, uc.city, uc.state
 ORDER BY total_pedidos DESC;
 
 SELECT 
-    'Cliente' as tipo,
-    c.nombre,
-    uc.ciudad
-FROM Clientes c
-INNER JOIN UbicacionCliente uc ON c.id = uc.cliente_id
+    'Client' as type,
+    c.name,
+    uc.city
+FROM Clients c
+INNER JOIN ClientLocation uc ON c.id = uc.client_id
 UNION ALL
 SELECT 
-    'Proveedor' as tipo,
-    p.nombre,
+    'Supplier' as type,
+    p.name,
     CASE 
-        WHEN p.direccion LIKE '%Calle 10%' THEN 'Bogotá'
-        WHEN p.direccion LIKE '%Cra 8%' THEN 'Medellín'
-        ELSE 'Otra ciudad'
-    END as ciudad
-FROM Proveedores p
-ORDER BY ciudad, tipo, nombre;
+        WHEN p.address LIKE '%Street 10%' THEN 'Bogota'
+        WHEN p.address LIKE '%Ave. 8%' THEN 'Medellin'
+        ELSE 'Other city'
+    END as city
+FROM Suppliers p
+ORDER BY city, type, name;
 
 SELECT 
-    tp.tipo_nombre,
-    tp.descripcion,
-    COUNT(dp.id) as productos_vendidos,
-    SUM(dp.cantidad) as cantidad_total,
-    SUM(dp.cantidad * dp.precio) as ventas_totales
-FROM TiposProductos tp
-INNER JOIN Productos prod ON tp.id = prod.tipo_id
-INNER JOIN DetallesPedido dp ON prod.id = dp.producto_id
-GROUP BY tp.id, tp.tipo_nombre, tp.descripcion
-ORDER BY ventas_totales DESC;
+    tp.type_name,
+    tp.description,
+    COUNT(dp.id) as products_sold,
+    SUM(dp.quantity) as total_quantity,
+    SUM(dp.quantity * dp.price) as total_sales
+FROM ProductTypes tp
+INNER JOIN Products prod ON tp.id = prod.tipo_id
+INNER JOIN OrderDetails dp ON prod.id = dp.product_id
+GROUP BY tp.id, tp.type_name, tp.description
+ORDER BY total_sales DESC;
 
 SELECT DISTINCT
-    e.nombre as empleado_nombre,
-    e.puesto,
-    prov.nombre as proveedor_nombre,
-    prod.nombre as producto_nombre,
-    p.fecha as fecha_pedido,
-    dp.cantidad
-FROM Empleados e
-INNER JOIN Pedidos p ON e.id = p.empleado_id
-INNER JOIN DetallesPedido dp ON p.id = dp.pedido_id
-INNER JOIN Productos prod ON dp.producto_id = prod.id
-INNER JOIN Proveedores prov ON prod.proveedor_id = prov.id
-WHERE prov.nombre = 'CuidadoElectricidad'
-ORDER BY p.fecha DESC;
+    e.name as employee_name,
+    e.position,
+    prov.name as supplier_name,
+    prod.name as product_name,
+    p.date as order_date,
+    dp.quantity
+FROM Employees e
+INNER JOIN Orders p ON e.id = p.employee_id
+INNER JOIN OrderDetails dp ON p.id = dp.order_id
+INNER JOIN Products prod ON dp.product_id = prod.id
+INNER JOIN Suppliers prov ON prod.supplier_id = prov.id
+WHERE prov.name = 'CarefulElectricity'
+ORDER BY p.date DESC;
 
 SELECT 
-    prov.id as proveedor_id,
-    prov.nombre as proveedor_nombre,
-    prov.contacto,
-    COUNT(DISTINCT prod.id) as productos_ofrecidos,
-    COUNT(dp.id) as total_ventas,
-    SUM(dp.cantidad) as unidades_vendidas,
-    SUM(dp.cantidad * dp.precio) as ingresos_totales
-FROM Proveedores prov
-INNER JOIN Productos prod ON prov.id = prod.proveedor_id
-LEFT JOIN DetallesPedido dp ON prod.id = dp.producto_id
-GROUP BY prov.id, prov.nombre, prov.contacto
-ORDER BY ingresos_totales DESC;
+    prov.id as supplier_id,
+    prov.name as supplier_name,
+    prov.contact,
+    COUNT(DISTINCT prod.id) as products_offered,
+    COUNT(dp.id) as total_sales,
+    SUM(dp.quantity) as units_sold,
+    SUM(dp.quantity * dp.price) as total_revenue
+FROM Suppliers prov
+INNER JOIN Products prod ON prov.id = prod.supplier_id
+LEFT JOIN OrderDetails dp ON prod.id = dp.product_id
+GROUP BY prov.id, prov.name, prov.contact
+ORDER BY total_revenue DESC;
